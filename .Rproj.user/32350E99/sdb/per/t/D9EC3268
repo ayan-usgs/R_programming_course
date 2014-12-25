@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1419464583099.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D9EC3268",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "df_ordered",
+        "contentUrl" : "content?title=df_ordered&file=50dc74c560cb43d9af1d99e56f4eb0d3.htm",
+        "displayedObservations" : 172,
+        "displayedVariables" : 47,
+        "totalObservations" : 172,
+        "variables" : 46
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

@@ -1,0 +1,17 @@
+{
+    "contents" : "CSV_PATH <- 'C:\\\\Users\\\\ayan\\\\Downloads\\\\rprog-data-ProgAssignment3-data\\\\outcome-of-care-measures.csv'\n\n\ncolumn_validation <- function(column_names, substring) {\n  col_list <- list(heart_attack = 13,\n                   heart_failure = 19,\n                   pneumonia = 25\n                   )\n  column_names_lower <- tolower(column_names)\n  substring_exists <- grepl(substring, column_names_lower)\n  substring_exists_sum <- sum(substring_exists)\n  if (substring_exists_sum > 0) {\n    substring_exists_logical <- TRUE\n    return(substring_exists_logical)\n  }\n  else {\n    stop('invalid outcome')\n  }\n}\n\n\nstate_validation <- function(states, state_abbrev) {\n  unique_states <- unique(states)\n  state_valid <- any(state_abbrev == states)\n  if (state_valid) {\n    return(TRUE)\n  }\n  else {\n    stop('invalid state')\n  }\n}\n\n\nna_replace <- function(dataframe, old_str, new_str = NA) {\n  dataframe[dataframe == old_str] = new_str\n  return(dataframe)\n}\n\n\nclean_str <- function(string, old_str= ' ', new_str= '.') {\n  lower_str <- tolower(string)\n  new_str <- gsub(old_str, new_str, lower_str)\n}\n\n\nfilter_by_state <- function(dataframe, state_abbrev, na_string = 'Not Available') {\n  df_state <- dataframe[dataframe$State == state_abbrev, ]\n  df_state_na <- na_replace(df_state, na_string)\n  df_complete <- complete.cases(df_state_na)\n  df_state_complete <- df_state_na[df_complete, ]\n}\n\n\ncol_num_assign <- function(outcome_string) {\n  col_list <- list(heart_attack = 13,\n                   heart_failure = 19,\n                   pneumonia = 25)\n  if (outcome_string == 'heart attack') {\n    col_num <- col_list$heart_attack\n  }\n  else if (outcome_string == 'heart failure') {\n    col_num <- col_list$heart_failure\n  }\n  else if (outcome_string == 'pneumonia') {\n    col_num <- col_list$pneumonia\n  }\n  return(col_num)\n}\n\n\nbest <- function(state, outcome, csv_path = CSV_PATH) {\n  outcome_data <- read.csv(csv_path, colClasses = 'character')\n  states <- outcome_data[, 7]\n  state_valid <- state_validation(states, state)\n  column_names <- colnames(outcome_data)\n  outcome_str <- clean_str(outcome)\n  outcome_valid <- column_validation(column_names, outcome_str)\n  if (state_valid && outcome_valid) {\n    df_state_complete <- filter_by_state(outcome_data, state)\n    outcome_lower <- tolower(outcome)\n    col_num <- col_num_assign(outcome_lower)\n    df_state_complete[, col_num] <- as.numeric(df_state_complete[, col_num])\n    outcome_min <- min(df_state_complete[, col_num])\n    df_min <- df_state_complete[, col_num] == outcome_min\n    df_min_records <- df_state_complete[df_min, ]\n    hospital_names <- df_min_records$Hospital.Name\n    sorted_names <- sort(hospital_names)\n    first_hospital <- sorted_names[[1]]\n    return(first_hospital)\n  }\n}",
+    "created" : 1419439042225.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1159246337",
+    "id" : "777EB473",
+    "lastKnownWriteTime" : 1419461255,
+    "path" : "~/R_projects/r_coursera/best.R",
+    "project_path" : "best.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
