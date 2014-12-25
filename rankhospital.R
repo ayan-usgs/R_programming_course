@@ -1,4 +1,4 @@
-source('best.R')
+source('utils_3.R')
 
 rankhospital <- function(state, outcome, num, csv_path = CSV_PATH) {
   outcome_lower <- tolower(outcome)
