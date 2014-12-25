@@ -1,0 +1,17 @@
+{
+    "contents" : "source('utils_3.R')\n\n\nrankall_1 <- function(outcome, num, csv_path = CSV_PATH) {\n  outcome_data <- read.csv(csv_path, colClasses = 'character')\n  outcome_lower <- tolower(outcome)\n  column_names <- colnames(outcome_data)\n  outcome_str <- clean_str(outcome)\n  outcome_valid <- column_validation(column_names, outcome_str)\n  hosptial <- c()\n  state <- c()\n  if (outcome_valid) {\n    states <- outcome_data[, 7]\n    unique_states <- unique(states)\n    for (unique_state in unique_states) {\n      hospital_name <- rankhospital(unique_state, num)\n      state_abbrev <- unique_state\n      hospital <- append(hosptial, hospital_name)\n      state <- append(state, state_abbrev)\n    }\n  }\n  rank_df <- data.frame(hospital, state)\n}\n\n\nrankall <- function(outcome, num, csv_path = CSV_PATH) {\n  outcome_lower <- tolower(outcome)\n  col_num <- col_num_assign(outcome_lower)\n  outcome_data <- read.csv(csv_path, colClasses = 'character')\n  outcome_data <- na_replace(outcome_data, 'Not Available')\n  outcome_data[, col_num] <- as.numeric(outcome_data[, col_num])\n  states <- outcome_data[, 7]\n  unique_states <- unique(states)\n  states_sorted <- sort(unique_states)\n  outcome_complete <- complete.cases(outcome_data)\n  complete <- outcome_data[outcome_complete, ]\n  hospital <- c()\n  state <- c()\n  complete_ordered <- complete[with(complete, order(complete[, 7],\n                                                    complete[, col_num],\n                                                    complete[, 'Hospital.Name']\n                                                    )\n                                    ),\n                               ]\n  for (state_abbrev in states_sorted) {\n    state_df <- filter_by_state(complete_ordered, state_abbrev)\n    if (num == 'best') {\n      num <- 1\n    }\n    else if (num == 'worst') {\n      num <- nrow(state_df)\n    }\n    else {\n      num <- num\n    }\n    hospital_name <- state_df[num, 'Hospital.Name']\n    hospital <- append(hospital, hospital_name)\n    state <- append(state, state_abbrev)\n  }\n  hospital_rank <- data.frame(hospital, state)\n}",
+    "created" : 1419526022705.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1522692370",
+    "id" : "E11B4E20",
+    "lastKnownWriteTime" : 1419540168,
+    "path" : "~/R_projects/r_coursera/rankall.R",
+    "project_path" : "rankall.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
