@@ -1,0 +1,17 @@
+{
+    "contents" : "source('utils_3.R')\n\nbest <- function(state, outcome, csv_path = CSV_PATH) {\n  outcome_data <- read.csv(csv_path, colClasses = 'character')\n  states <- outcome_data[, 7]\n  state_valid <- state_validation(states, state)\n  column_names <- colnames(outcome_data)\n  outcome_str <- clean_str(outcome)\n  outcome_valid <- column_validation(column_names, outcome_str)\n  if (state_valid && outcome_valid) {\n    df_state_complete <- filter_by_state(outcome_data, state)\n    outcome_lower <- tolower(outcome)\n    col_num <- col_num_assign(outcome_lower)\n    df_state_complete[, col_num] <- as.numeric(df_state_complete[, col_num])\n    outcome_min <- min(df_state_complete[, col_num])\n    df_min <- df_state_complete[, col_num] == outcome_min\n    df_min_records <- df_state_complete[df_min, ]\n    hospital_names <- df_min_records$Hospital.Name\n    sorted_names <- sort(hospital_names)\n    first_hospital <- sorted_names[[1]]\n    return(first_hospital)\n  }\n}",
+    "created" : 1419439042225.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3466145767",
+    "id" : "777EB473",
+    "lastKnownWriteTime" : 1419525865,
+    "path" : "~/R_projects/r_coursera/best.R",
+    "project_path" : "best.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

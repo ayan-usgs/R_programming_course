@@ -1,0 +1,17 @@
+{
+    "contents" : "CSV_PATH <- 'C:\\\\Users\\\\ayan\\\\Downloads\\\\rprog-data-ProgAssignment3-data\\\\outcome-of-care-measures.csv'\n\n\ncolumn_validation <- function(column_names, substring) {\n  col_list <- list(heart_attack = 13,\n                   heart_failure = 19,\n                   pneumonia = 25\n  )\n  column_names_lower <- tolower(column_names)\n  substring_exists <- grepl(substring, column_names_lower)\n  substring_exists_sum <- sum(substring_exists)\n  if (substring_exists_sum > 0) {\n    substring_exists_logical <- TRUE\n    return(substring_exists_logical)\n  }\n  else {\n    stop('invalid outcome')\n  }\n}\n\n\nstate_validation <- function(states, state_abbrev) {\n  unique_states <- unique(states)\n  state_valid <- any(state_abbrev == states)\n  if (state_valid) {\n    return(TRUE)\n  }\n  else {\n    stop('invalid state')\n  }\n}\n\n\nna_replace <- function(dataframe, old_str, new_str = NA) {\n  dataframe[dataframe == old_str] = new_str\n  return(dataframe)\n}\n\n\nclean_str <- function(string, old_str= ' ', new_str= '.') {\n  lower_str <- tolower(string)\n  new_str <- gsub(old_str, new_str, lower_str)\n}\n\n\nfilter_by_state <- function(dataframe, state_abbrev, na_string = 'Not Available') {\n  df_state <- dataframe[dataframe$State == state_abbrev, ]\n  df_state_na <- na_replace(df_state, na_string)\n  df_complete <- complete.cases(df_state_na)\n  df_state_complete <- df_state_na[df_complete, ]\n}\n\n\ncol_num_assign <- function(outcome_string) {\n  col_list <- list(heart_attack = 13,\n                   heart_failure = 19,\n                   pneumonia = 25)\n  if (outcome_string == 'heart attack') {\n    col_num <- col_list$heart_attack\n  }\n  else if (outcome_string == 'heart failure') {\n    col_num <- col_list$heart_failure\n  }\n  else if (outcome_string == 'pneumonia') {\n    col_num <- col_list$pneumonia\n  }\n  return(col_num)\n}",
+    "created" : 1419525755671.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2104631111",
+    "id" : "9D0FB7D1",
+    "lastKnownWriteTime" : 1419525854,
+    "path" : "~/R_projects/r_coursera/utils_3.R",
+    "project_path" : "utils_3.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
