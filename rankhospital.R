@@ -11,13 +11,14 @@ rankhospital <- function(state, outcome, num, csv_path = CSV_PATH) {
   if (state_valid && outcome_valid) {
     df_state_complete <- filter_by_state(outcome_data, state)
     if (num == 'best') {
-      num <- 1
+      rank_num <- 1
     }
     else if (num == 'worst') {
-      num <- nrow(df_state_complete)
+      number_of_rows <- nrow(df_state_complete)
+      rank_num <- number_of_rows
     }
     else {
-      num <- num
+      rank_num <- num
     }
     col_num <- col_num_assign(outcome_lower)
     df_state_complete[, col_num] <- as.numeric(df_state_complete[, col_num])
@@ -26,7 +27,7 @@ rankhospital <- function(state, outcome, num, csv_path = CSV_PATH) {
                                                                   )
                                          ), 
                                     ]
-    hospital_name_num <- df_ordered[num, 'Hospital.Name']
+    hospital_name_num <- df_ordered[rank_num, 'Hospital.Name']
   }
   return(hospital_name_num)
 }

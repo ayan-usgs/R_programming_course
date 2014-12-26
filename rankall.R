@@ -45,17 +45,22 @@ rankall <- function(outcome, num, csv_path = CSV_PATH) {
   for (state_abbrev in states_sorted) {
     state_df <- filter_by_state(complete_ordered, state_abbrev)
     if (num == 'best') {
-      num <- 1
+      rank_num <- 1
     }
     else if (num == 'worst') {
-      num <- nrow(state_df)
+      number_of_rows <- nrow(state_df)
+      rank_num <- number_of_rows
     }
     else {
-      num <- num
+      rank_num <- num
     }
-    hospital_name <- state_df[num, 'Hospital.Name']
+    # print(paste(state_abbrev, rank_num, sep=': '))
+    hospital_name <- state_df[rank_num, 'Hospital.Name']
     hospital <- append(hospital, hospital_name)
     state <- append(state, state_abbrev)
+    if (state_abbrev == 'HI') {
+      return(state_df)
+    }
   }
   hospital_rank <- data.frame(hospital, state)
 }
